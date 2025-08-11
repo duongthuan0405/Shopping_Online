@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Shoppie</string>
+    <string name="title_splash"><font color="#dc6f31">Your Shopping</font> Destination\nfor Everything</string>
+    <string name="sub_title_splash">Get personalized recommendations\nEnjoy Fast, Free Shipping</string>
+    <string name="Get_Start">Get Start Now</string>
+    <string name="sub_title">Beautiful eCommerce UI Kit\nfor your online store</string>
+    <string name="LetsStart">Let\'s get start now</string>
+    <string name="SignIn">Sign In</string>
+    <string name="GoodToSeeYouBack">Good to see you back!</string>
+    <string name="Your_Email">Your Email</string>
+    <string name="example_email">example123@gmail.com</string>
+    <string name="your_password">Your Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="you_haven_t_got_any_account_yet">You haven\'t got any account yet?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="CreateAccount">Provide your information\nto create a new account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="authentic_information">Authentic Information</string>
+    <string name="_1_of_2">1 of 2</string>
+    <string name="your_info">Your personal information</string>
+    <string name="Your_Name">Your full name</string>
+    <string name="your_number_phone">Your phone number</string>
+    <string name="your_birthday">Your date of birth</string>
+    <string name="example_birthday">dd/MM/yyyy</string>
+    <string name="next"><![CDATA[Next >>]]></string>
+</resources>
