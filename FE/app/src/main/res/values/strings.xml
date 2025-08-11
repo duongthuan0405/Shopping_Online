@@ -25,5 +25,6 @@
     <string name="your_number_phone">Your phone number</string>
     <string name="your_birthday">Your date of birth</string>
     <string name="example_birthday">dd/MM/yyyy</string>
-    <string name="next"><![CDATA[Next >>]]></string>
+    <string name="next"><![CDATA[Next  >>]]></string>
+    <string name="back"><![CDATA[<< Back]]></string>
 </resources>

@@ -9,4 +9,14 @@ public class PersonalInformation_F_Presenter implements PersonalInformation_F_Co
     {
         this.view = view;
     }
+
+    @Override
+    public void onClick_btnNext() {
+        view.changeTo_F_AuthenticInfo();
+    }
+
+    @Override
+    public void onClick_btnBack() {
+        view.handleAsSystemBackPress();
+    }
 }

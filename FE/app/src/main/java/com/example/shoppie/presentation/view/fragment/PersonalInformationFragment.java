@@ -2,15 +2,16 @@ package com.example.shoppie.presentation.view.fragment;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.shoppie.R;
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
 import com.example.shoppie.presentation.contract_vp.PersonalInformation_F_Contract;
+import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
 import com.example.shoppie.presentation.presenter.PersonalInformation_F_Presenter;
 
 /**
@@ -32,6 +33,7 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
 
     PersonalInformation_F_Contract.IPresenter presenter = new PersonalInformation_F_Presenter(this);
     FragmentPersonalInformationBinding binding;
+    SignUp_A_Contract.IView parentActivity;
 
     public PersonalInformationFragment() {
         // Required empty public constructor
@@ -62,7 +64,12 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        parentActivity = (SignUp_A_Contract.IView) getActivity();
 
+    }
+
+    private void onClick_btnNext(View v) {
+        presenter.onClick_btnNext();
     }
 
     @Override
@@ -71,6 +78,24 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_personal_information, container, false);
         binding = FragmentPersonalInformationBinding.inflate(inflater, container, false);
+
+        binding.btnNext.setOnClickListener(v -> onClick_btnNext(v));
+        binding.btnBack.setOnClickListener(v -> onClick_btnBack(v));
+
         return binding.getRoot();
+    }
+
+    private void onClick_btnBack(View v) {
+        presenter.onClick_btnBack();
+    }
+
+    @Override
+    public void changeTo_F_AuthenticInfo() {
+        parentActivity.changeTo_F_AuthenticInfo();
+    }
+
+    @Override
+    public void handleAsSystemBackPress() {
+        parentActivity.handleAsBackPressSystem();
     }
 }
