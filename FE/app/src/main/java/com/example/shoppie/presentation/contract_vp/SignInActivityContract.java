@@ -1,16 +1,14 @@
 package com.example.shoppie.presentation.contract_vp;
 
-public interface StartingActivityContract
+public interface SignInActivityContract
 {
     interface IView
     {
 
-        void navigateToLoginActivity();
     }
 
     interface IPresenter
     {
 
-        void onCick_btnGetStart();
     }
 }

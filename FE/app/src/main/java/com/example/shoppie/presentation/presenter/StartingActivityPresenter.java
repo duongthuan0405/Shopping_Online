@@ -9,4 +9,9 @@ public class StartingActivityPresenter implements StartingActivityContract.IPres
     {
         this.view = view;
     }
+
+    @Override
+    public void onCick_btnGetStart() {
+        view.navigateToLoginActivity();
+    }
 }
