@@ -8,13 +8,13 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.shoppie.databinding.ActivityStartingBinding;
-import com.example.shoppie.presentation.contract_vp.StartingActivityContract;
-import com.example.shoppie.presentation.presenter.StartingActivityPresenter;
+import com.example.shoppie.presentation.contract_vp.Starting_A_Contract;
+import com.example.shoppie.presentation.presenter.Starting_A_Presenter;
 
-public class StartingActivity extends AppCompatActivity implements StartingActivityContract.IView {
+public class StartingActivity extends AppCompatActivity implements Starting_A_Contract.IView {
 
     ActivityStartingBinding binding;
-    StartingActivityContract.IPresenter presenter = new StartingActivityPresenter(this);
+    Starting_A_Contract.IPresenter presenter = new Starting_A_Presenter(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
