@@ -9,4 +9,9 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
     {
         this.view = view;
     }
+
+    @Override
+    public void onClick_txVwBack() {
+        view.handleAsSystemBackPress();
+    }
 }

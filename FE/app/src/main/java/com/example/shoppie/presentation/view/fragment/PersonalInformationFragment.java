@@ -80,7 +80,7 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         binding = FragmentPersonalInformationBinding.inflate(inflater, container, false);
 
         binding.btnNext.setOnClickListener(v -> onClick_btnNext(v));
-        binding.btnBack.setOnClickListener(v -> onClick_btnBack(v));
+        binding.txVwBack.setOnClickListener(v -> onClick_btnBack(v));
 
         return binding.getRoot();
     }

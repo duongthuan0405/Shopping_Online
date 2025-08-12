@@ -35,7 +35,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUp_A_Contra
     @Override
     public void changeTo_F_AuthenticInfo() {
         setFragment(new AuthenticInformationFragment(), true);
-
     }
 
     @Override
