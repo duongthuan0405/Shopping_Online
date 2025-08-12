@@ -5,7 +5,7 @@ public interface PersonalInformation_F_Contract
     interface IView
     {
 
-        void changeTo_F_AuthenticInfo();
+        void changeNextFragment();
 
         void handleAsSystemBackPress();
     }

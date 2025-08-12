@@ -5,9 +5,10 @@ public interface SignUp_A_Contract
     interface IView
     {
 
-        void changeTo_F_AuthenticInfo();
+        void changeNextFragment();
 
         void handleAsBackPressSystem();
+
     }
 
     interface IPresenter

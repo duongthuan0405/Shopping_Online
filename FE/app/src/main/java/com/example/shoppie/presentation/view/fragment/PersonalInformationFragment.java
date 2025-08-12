@@ -1,24 +1,26 @@
 package com.example.shoppie.presentation.view.fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
+import com.example.shoppie.presentation.class_model_view.StaticClass;
 import com.example.shoppie.presentation.contract_vp.PersonalInformation_F_Contract;
 import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
 import com.example.shoppie.presentation.presenter.PersonalInformation_F_Presenter;
+import com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PersonalInformationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class PersonalInformationFragment extends Fragment implements PersonalInformation_F_Contract.IView
 {
 
@@ -33,21 +35,12 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
 
     PersonalInformation_F_Contract.IPresenter presenter = new PersonalInformation_F_Presenter(this);
     FragmentPersonalInformationBinding binding;
-    SignUp_A_Contract.IView parentActivity;
+    SignUpViewModel signUpViewModel;
+    private LocalDate selectedDate = LocalDate.now();
 
     public PersonalInformationFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PersonalInformationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PersonalInformationFragment newInstance(String param1, String param2) {
         PersonalInformationFragment fragment = new PersonalInformationFragment();
         Bundle args = new Bundle();
@@ -64,12 +57,6 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        parentActivity = (SignUp_A_Contract.IView) getActivity();
-
-    }
-
-    private void onClick_btnNext(View v) {
-        presenter.onClick_btnNext();
     }
 
     @Override
@@ -79,23 +66,53 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         //return inflater.inflate(R.layout.fragment_personal_information, container, false);
         binding = FragmentPersonalInformationBinding.inflate(inflater, container, false);
 
+        initViewModel();
+
         binding.btnNext.setOnClickListener(v -> onClick_btnNext(v));
         binding.txVwBack.setOnClickListener(v -> onClick_btnBack(v));
+        binding.txVwYourBirthday.setOnClickListener(v -> onClick_txVwYourBirthday(v));
 
         return binding.getRoot();
+    }
+
+    private void onClick_txVwYourBirthday(View v) {
+        DatePickerDialog dialog = new DatePickerDialog(
+                this.requireActivity(),
+                DatePickerDialog.THEME_HOLO_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
+                        binding.txVwYourBirthday.setText(selectedDate.format(DateTimeFormatter.ofPattern(StaticClass.DATE_FORMAT)));
+                    }
+                },
+                selectedDate.getYear(), selectedDate.getMonthValue() - 1, selectedDate.getDayOfMonth()
+        );
+        dialog.show();
+    }
+
+    private void initViewModel() {
+        signUpViewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
+        binding.setVm(signUpViewModel);
+        binding.setLifecycleOwner(requireActivity());
+
     }
 
     private void onClick_btnBack(View v) {
         presenter.onClick_btnBack();
     }
 
+    private void onClick_btnNext(View v) {
+        presenter.onClick_btnNext();
+    }
+
     @Override
-    public void changeTo_F_AuthenticInfo() {
-        parentActivity.changeTo_F_AuthenticInfo();
+    public void changeNextFragment() {
+        ((SignUp_A_Contract.IView)requireActivity()).changeNextFragment();
     }
 
     @Override
     public void handleAsSystemBackPress() {
-        parentActivity.handleAsBackPressSystem();
+        ((SignUp_A_Contract.IView)requireActivity()).handleAsBackPressSystem();
     }
 }

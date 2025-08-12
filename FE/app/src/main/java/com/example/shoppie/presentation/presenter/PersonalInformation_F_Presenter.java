@@ -12,7 +12,7 @@ public class PersonalInformation_F_Presenter implements PersonalInformation_F_Co
 
     @Override
     public void onClick_btnNext() {
-        view.changeTo_F_AuthenticInfo();
+        view.changeNextFragment();
     }
 
     @Override

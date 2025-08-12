@@ -19,12 +19,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="authentic_information">Authentic Information</string>
-    <string name="_1_of_2">1 of 2</string>
+    <string name="_0_of_2">0 of 2</string>
     <string name="your_info">Your personal information</string>
     <string name="Your_Name">Your full name</string>
     <string name="your_number_phone">Your phone number</string>
     <string name="your_birthday">Your date of birth</string>
     <string name="example_birthday">dd/MM/yyyy</string>
-    <string name="next"><![CDATA[Next  >>]]></string>
-    <string name="back"><![CDATA[<< Back]]></string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="input_your_name">Input your name</string>
+    <string name="example_number_phone">0123456789</string>
 </resources>

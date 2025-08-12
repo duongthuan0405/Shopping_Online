@@ -3,6 +3,7 @@ package com.example.shoppie.presentation.view.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +15,12 @@ import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
 import com.example.shoppie.presentation.contract_vp.AuthenticInformation_F_Contract;
 import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
 import com.example.shoppie.presentation.presenter.AuthenticInformation_F_Presenter;
+import com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AuthenticInformationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AuthenticInformationFragment extends Fragment implements AuthenticInformation_F_Contract.IView{
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -39,15 +32,6 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AuthenticInformationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AuthenticInformationFragment newInstance(String param1, String param2) {
         AuthenticInformationFragment fragment = new AuthenticInformationFragment();
         Bundle args = new Bundle();
@@ -75,13 +59,9 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         //return inflater.inflate(R.layout.fragment_authentic_information, container, false);
         binding = FragmentAuthenticInformationBinding.inflate(inflater, container, false);
 
-        setView();
+        binding.txVwBack.setOnClickListener(v -> onClick_txVwBack());
 
         return binding.getRoot();
-    }
-
-    private void setView() {
-        binding.txVwBack.setOnClickListener(v -> onClick_txVwBack());
     }
 
     private void onClick_txVwBack() {
