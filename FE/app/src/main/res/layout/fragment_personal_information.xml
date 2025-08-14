@@ -19,12 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/bubbles4"
-            android:scaleType="fitXY"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -138,7 +132,8 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"
-                    android:hint="@string/input_your_name"/>
+                    android:hint="@string/input_your_name"
+                    android:text="@={vm.fullName}"/>
 
 
                 <TextView
@@ -149,7 +144,7 @@
                     android:fontFamily="@font/league_spartan_bold"
                     android:text="@string/your_number_phone"
                     android:textColor="@color/blue"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"/>
 
                 <EditText
                     android:id="@+id/edTx_YourPhoneNumber"
@@ -163,6 +158,7 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"
+                    android:text="@={vm.phoneNumber}"
                     android:hint="@string/example_number_phone"/>
 
                 <TextView
@@ -184,6 +180,7 @@
                     android:ems="10"
                     android:fontFamily="@font/league_spartan_medium"
                     android:hint="@{staticClass.today}"
+                    android:text="@={vm.birthday}"
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"

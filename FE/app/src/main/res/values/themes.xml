@@ -3,6 +3,5 @@
     <style name="Base.Theme.Shoppie" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="textAllCaps">false</item>
     </style>
-
     <style name="Theme.Shoppie" parent="Base.Theme.Shoppie" />
 </resources>

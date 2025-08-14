@@ -8,13 +8,18 @@ public interface PersonalInformation_F_Contract
         void changeNextFragment();
 
         void handleAsSystemBackPress();
+
+        void showError_FullnName();
+
+        void showError_PhoneNumber();
+
+        void showError_Birthday();
     }
 
     interface IPresenter
     {
 
-        void onClick_btnNext();
-
+        void onClick_btnNext(String fullName, String phoneNumber, String birthday);
         void onClick_btnBack();
     }
 }

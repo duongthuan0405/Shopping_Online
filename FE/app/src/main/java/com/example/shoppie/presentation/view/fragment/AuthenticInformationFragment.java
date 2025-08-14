@@ -1,11 +1,16 @@
 package com.example.shoppie.presentation.view.fragment;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +32,7 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
     private AuthenticInformation_F_Contract.IPresenter presenter = new AuthenticInformation_F_Presenter(this);
     private FragmentAuthenticInformationBinding binding;
     private SignUp_A_Contract.IView parentActivity;
+    SignUpViewModel signUpViewModel;
 
     public AuthenticInformationFragment() {
         // Required empty public constructor
@@ -52,6 +58,7 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         parentActivity = (SignUp_A_Contract.IView) requireActivity();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,9 +66,27 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         //return inflater.inflate(R.layout.fragment_authentic_information, container, false);
         binding = FragmentAuthenticInformationBinding.inflate(inflater, container, false);
 
+        initViewModel();
         binding.txVwBack.setOnClickListener(v -> onClick_txVwBack());
+        binding.btnSignUp.setOnClickListener(v -> onClick_btnSignUp(v));
+        binding.edTxYourPassword.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
+
+        binding.edTxYourEmail.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
 
         return binding.getRoot();
+    }
+
+    private void initViewModel() {
+        signUpViewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
+        binding.setVm(signUpViewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+
+    }
+
+    private void onClick_btnSignUp(View v) {
+        String email = binding.edTxYourEmail.getText().toString();
+        String password = binding.edTxYourPassword.getText().toString();
+        presenter.onClick_btnSignUp(email, password);
     }
 
     private void onClick_txVwBack() {
@@ -71,5 +96,26 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
     @Override
     public void handleAsSystemBackPress() {
         parentActivity.handleAsBackPressSystem();
+    }
+
+    @Override
+    public void showError_Email() {
+        changeErrorBackground(binding.edTxYourEmail);
+    }
+
+    @Override
+    public void showError_Password() {
+        changeErrorBackground(binding.edTxYourPassword);
+    }
+
+    private void changeErrorBackground(View view)
+    {
+        Drawable errorBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
+        view.setBackground(errorBackground);
+    }
+
+    private void setNormalBackground(View view) {
+        Drawable normalBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
+        view.setBackground(normalBackground);
     }
 }

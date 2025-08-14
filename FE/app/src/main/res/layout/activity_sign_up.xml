@@ -16,12 +16,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/mainFrame"
-            android:layout_width="match_parent"
+        <FrameLayout
             android:layout_height="0dp"
             android:layout_weight="12"
-            android:orientation="vertical"/>
+            android:layout_width="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bubbles4"
+                android:scaleType="fitXY"/>
+
+            <LinearLayout
+                android:id="@+id/mainFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"/>
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/txVw_M_of_N"

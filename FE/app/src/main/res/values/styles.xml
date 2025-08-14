@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="my_date_picker_dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:colorAccent">@color/blue</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/btn_neg</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/btn_pos</item>
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="android:fontFamily">@font/league_spartan_medium</item>
+    </style>
+
+    <style name="btn_neg">
+        <item name="android:textColor">@color/red</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/league_spartan_bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="btn_pos">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/league_spartan_bold</item>
+        <item name="android:textSize">15sp</item>
+
+    </style>
+</resources>

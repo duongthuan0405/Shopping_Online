@@ -1,16 +1,21 @@
 package com.example.shoppie.presentation.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.example.shoppie.R;
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
 import com.example.shoppie.presentation.class_model_view.StaticClass;
 import com.example.shoppie.presentation.contract_vp.PersonalInformation_F_Contract;
@@ -59,6 +64,7 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,14 +77,22 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         binding.btnNext.setOnClickListener(v -> onClick_btnNext(v));
         binding.txVwBack.setOnClickListener(v -> onClick_btnBack(v));
         binding.txVwYourBirthday.setOnClickListener(v -> onClick_txVwYourBirthday(v));
+        binding.edTxYourFullName.setOnTouchListener((v, event) -> { setNormalBackground(v); return false;});
+        binding.edTxYourPhoneNumber.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
+        binding.txVwYourBirthday.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
 
         return binding.getRoot();
+    }
+
+    private void setNormalBackground(View view) {
+        Drawable normalBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
+        view.setBackground(normalBackground);
     }
 
     private void onClick_txVwYourBirthday(View v) {
         DatePickerDialog dialog = new DatePickerDialog(
                 this.requireActivity(),
-                DatePickerDialog.THEME_HOLO_LIGHT,
+                R.style.my_date_picker_dialog,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -94,7 +108,7 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
     private void initViewModel() {
         signUpViewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
         binding.setVm(signUpViewModel);
-        binding.setLifecycleOwner(requireActivity());
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
     }
 
@@ -103,7 +117,10 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
     }
 
     private void onClick_btnNext(View v) {
-        presenter.onClick_btnNext();
+        String fullName = binding.edTxYourFullName.getText().toString();
+        String phoneNumber = binding.edTxYourPhoneNumber.getText().toString();
+        String birthday = binding.txVwYourBirthday.getText().toString();
+        presenter.onClick_btnNext(fullName, phoneNumber, birthday);
     }
 
     @Override
@@ -115,4 +132,26 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
     public void handleAsSystemBackPress() {
         ((SignUp_A_Contract.IView)requireActivity()).handleAsBackPressSystem();
     }
+
+    @Override
+    public void showError_FullnName() {
+        changeErrorBackground(binding.edTxYourFullName);
+    }
+
+    @Override
+    public void showError_PhoneNumber() {
+        changeErrorBackground(binding.edTxYourPhoneNumber);
+    }
+
+    @Override
+    public void showError_Birthday() {
+        changeErrorBackground(binding.txVwYourBirthday);
+    }
+
+    private void changeErrorBackground(View view)
+    {
+        Drawable errorBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
+        view.setBackground(errorBackground);
+    }
+
 }

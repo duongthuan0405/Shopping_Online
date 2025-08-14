@@ -6,11 +6,17 @@ public interface AuthenticInformation_F_Contract
     {
 
         void handleAsSystemBackPress();
+
+        void showError_Email();
+
+        void showError_Password();
     }
 
     interface IPresenter
     {
 
         void onClick_txVwBack();
+
+        void onClick_btnSignUp(String email, String password);
     }
 }
