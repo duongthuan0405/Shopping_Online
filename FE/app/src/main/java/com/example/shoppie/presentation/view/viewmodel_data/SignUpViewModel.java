@@ -9,11 +9,11 @@ import kotlin.jvm.functions.Function1;
 
 public class SignUpViewModel extends ViewModel
 {
-    MutableLiveData<String> fullName = new MutableLiveData<>("");
-    MutableLiveData<String> phoneNumber = new MutableLiveData<>("");
+    MutableLiveData<String> fullName = new MutableLiveData<>("c");
+    MutableLiveData<String> phoneNumber = new MutableLiveData<>("1");
     MutableLiveData<String> birthday = new MutableLiveData<>("");
-    MutableLiveData<String> email = new MutableLiveData<>("");
-    MutableLiveData<String> password = new MutableLiveData<>("");
+    MutableLiveData<String> email = new MutableLiveData<>("f1@gmail.com");
+    MutableLiveData<String> password = new MutableLiveData<>("111222");
     MutableLiveData<Integer> position = new MutableLiveData<>(1);
     MutableLiveData<String> strPos = (MutableLiveData<String>)
             Transformations.map(position, integer -> String.format("%d of 2", position.getValue()));

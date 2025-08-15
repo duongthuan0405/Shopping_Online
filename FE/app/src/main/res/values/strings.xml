@@ -29,4 +29,7 @@
     <string name="back">Back</string>
     <string name="input_your_name">Input your name</string>
     <string name="example_number_phone">0123456789</string>
+    <string name="sign_up_successfully">Sign up successfully</string>
+    <string name="ok">OK</string>
+    <string name="please_check_your_email_to_verify">Please check your email to verify</string>
 </resources>

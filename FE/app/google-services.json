@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "139641558775",
+    "firebase_url": "https://onlineshop-286f4-default-rtdb.firebaseio.com",
+    "project_id": "onlineshop-286f4",
+    "storage_bucket": "onlineshop-286f4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139641558775:android:881ea39e41595ea217e5f2",
+        "android_client_info": {
+          "package_name": "com.example.fe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgMvMY4eO1srqRW-jVtsUQCzztdeCaNEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139641558775:android:d18f8e96ee5d76cb17e5f2",
+        "android_client_info": {
+          "package_name": "com.example.shoppie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgMvMY4eO1srqRW-jVtsUQCzztdeCaNEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

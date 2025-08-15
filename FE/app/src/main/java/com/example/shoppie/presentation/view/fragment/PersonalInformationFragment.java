@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
-import com.example.shoppie.presentation.class_model_view.StaticClass;
+import com.example.shoppie.staticclass.StaticClass;
 import com.example.shoppie.presentation.contract_vp.PersonalInformation_F_Contract;
 import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
 import com.example.shoppie.presentation.presenter.PersonalInformation_F_Presenter;

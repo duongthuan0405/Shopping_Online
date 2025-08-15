@@ -11,7 +11,7 @@
 
         <variable
             name="staticClass"
-            type="com.example.shoppie.presentation.class_model_view.StaticClass" />
+            type="com.example.shoppie.staticclass.StaticClass" />
     </data>
 
     <FrameLayout
