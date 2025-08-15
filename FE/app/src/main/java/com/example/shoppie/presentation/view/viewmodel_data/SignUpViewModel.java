@@ -15,6 +15,7 @@ public class SignUpViewModel extends ViewModel
     MutableLiveData<String> email = new MutableLiveData<>("f1@gmail.com");
     MutableLiveData<String> password = new MutableLiveData<>("111222");
     MutableLiveData<Integer> position = new MutableLiveData<>(1);
+    MutableLiveData<Boolean> isShowProcessBar = new MutableLiveData<>(false);
     MutableLiveData<String> strPos = (MutableLiveData<String>)
             Transformations.map(position, integer -> String.format("%d of 2", position.getValue()));
 
@@ -47,4 +48,12 @@ public class SignUpViewModel extends ViewModel
         this.position.setValue(position);
     }
 
+    public LiveData<Boolean> getIsShowProcessBar() {
+        return isShowProcessBar;
+    }
+
+    public void setShowProcessBar(boolean isShow)
+    {
+        isShowProcessBar.setValue(isShow);
+    }
 }

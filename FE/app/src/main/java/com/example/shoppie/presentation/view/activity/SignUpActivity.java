@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUp_A_Contra
             public void handleOnBackPressed() {
                 decreaseCurrentFragmentPosition();
                 signUpViewModel.setPosition(currentPositionFragment + 1);
+                signUpViewModel.setShowProcessBar(false);
 
                 // Default back action
                 setEnabled(false);

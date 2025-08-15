@@ -1,7 +1,5 @@
 package com.example.shoppie.presentation.contract_vp;
 
-import android.content.Context;
-
 import com.example.shoppie.presentation.dto.User;
 
 public interface AuthenticInformation_F_Contract
@@ -20,6 +18,8 @@ public interface AuthenticInformation_F_Contract
         void showError(String message);
 
         void onSuccess();
+
+        void setVisibilityOfProcessBar(boolean b);
     }
 
     interface IPresenter

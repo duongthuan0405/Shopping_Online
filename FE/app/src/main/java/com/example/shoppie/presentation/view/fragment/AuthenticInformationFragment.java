@@ -141,6 +141,11 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         showAlertDialogForSuccess();
     }
 
+    @Override
+    public void setVisibilityOfProcessBar(boolean b) {
+        signUpViewModel.setShowProcessBar(b);
+    }
+
     private void showAlertDialogForSuccess() {
         AlertDialogSignupSuccessBinding alertDialogBinding = AlertDialogSignupSuccessBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())

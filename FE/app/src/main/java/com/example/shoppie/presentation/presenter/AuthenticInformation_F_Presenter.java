@@ -48,6 +48,8 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
             User user = view.getUser();
             MUser mUser = new MUser(user);
 
+            view.setVisibilityOfProcessBar(true);
+
             signUpUseCase.execute(mAuthentication, new ISignUpUseCase.Callback()
                 {
                     @Override
@@ -56,11 +58,13 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
                         createUserProfile.execute(mUser, new ICreateUserProfile.Callback() {
                             @Override
                             public void onSuccess() {
+                                view.setVisibilityOfProcessBar(false);
                                 view.onSuccess();
                             }
 
                             @Override
                             public void onFailure(String message) {
+                                view.setVisibilityOfProcessBar(false);
                                 view.showError(message);
                             }
                         });
@@ -69,6 +73,7 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
 
                     @Override
                     public void onFailure(String message) {
+                        view.setVisibilityOfProcessBar(false);
                         view.showError(message);
                     }
                 }

@@ -8,6 +8,10 @@
         <variable
             name="vm"
             type="com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
     <FrameLayout
@@ -18,7 +22,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <TextView
                 android:id="@+id/textView7"
@@ -186,6 +189,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@color/unclear"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/light_blue"
+            android:visibility="@{vm.isShowProcessBar ? view.VISIBLE : view.GONE}"/>
     </FrameLayout>
 
 </layout>
