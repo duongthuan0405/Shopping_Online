@@ -1,14 +1,11 @@
 package com.example.shoppie.presentation.presenter;
 
-import android.util.Log;
 import android.util.Patterns;
 
-import androidx.fragment.app.Fragment;
-
 import com.example.shoppie.model.dto.MUser;
-import com.example.shoppie.model.usecase.implementation.CreateUserPersonalInformationUseCase;
+import com.example.shoppie.model.usecase.implementation.CreateUserProfileUseCase;
 import com.example.shoppie.model.usecase.implementation.SignUpUseCase;
-import com.example.shoppie.model.usecase.interfaces.ICreateUserPersonalInformationUseCse;
+import com.example.shoppie.model.usecase.interfaces.ICreateUserProfile;
 import com.example.shoppie.model.usecase.interfaces.ISignUpUseCase;
 import com.example.shoppie.presentation.contract_vp.AuthenticInformation_F_Contract;
 import com.example.shoppie.model.dto.MAuthentication;
@@ -18,11 +15,11 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
 {
     AuthenticInformation_F_Contract.IView view;
     ISignUpUseCase signUpUseCase;
-    ICreateUserPersonalInformationUseCse createUserPersonalInformationUseCse;
+    ICreateUserProfile createUserProfile;
     public AuthenticInformation_F_Presenter(AuthenticInformation_F_Contract.IView view) {
         this.view = view;
         signUpUseCase = new SignUpUseCase();
-        createUserPersonalInformationUseCse = new CreateUserPersonalInformationUseCase(((Fragment) view).requireActivity().getApplicationContext());
+        createUserProfile = new CreateUserProfileUseCase();
     }
 
     @Override
@@ -52,28 +49,29 @@ public class AuthenticInformation_F_Presenter implements AuthenticInformation_F_
             MUser mUser = new MUser(user);
 
             signUpUseCase.execute(mAuthentication, new ISignUpUseCase.Callback()
-            {
-                @Override
-                public void onSuccess(MAuthentication mAuthentication) {
-                    mUser.setId(mAuthentication.getId());
-                    createUserPersonalInformationUseCse.execute(mUser, new ICreateUserPersonalInformationUseCse.Callback() {
-                        @Override
-                        public void onSuccess() {
-                            view.onSuccess();
-                        }
+                {
+                    @Override
+                    public void onSuccess(MAuthentication mAuthentication) {
+                        mUser.setId(mAuthentication.getId());
+                        createUserProfile.execute(mUser, new ICreateUserProfile.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                view.onSuccess();
+                            }
 
-                        @Override
-                        public void onFailure(String message) {
-                            view.showError(message);
-                        }
-                    });
-                }
+                            @Override
+                            public void onFailure(String message) {
+                                view.showError(message);
+                            }
+                        });
 
-                @Override
-                public void onFailure(String message) {
-                    view.showError(message);
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        view.showError(message);
+                    }
                 }
-            }
             );
         }
     }

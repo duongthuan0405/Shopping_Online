@@ -2,6 +2,7 @@ package com.example.shoppie.model.usecase.implementation;
 
 import androidx.annotation.NonNull;
 
+import com.example.shoppie.model.usecase.interfaces.ICreateUserProfile;
 import com.example.shoppie.model.usecase.interfaces.ISignUpUseCase;
 import com.example.shoppie.model.dto.MAuthentication;
 import com.google.android.gms.tasks.OnCanceledListener;
@@ -13,9 +14,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpUseCase implements ISignUpUseCase {
     FirebaseAuth auth;
+    ICreateUserProfile createUserPersonalInformationUseCse;
     public SignUpUseCase()
     {
         auth = FirebaseAuth.getInstance();
+        createUserPersonalInformationUseCse = new CreateUserProfileUseCase();
     }
     @Override
     public void execute(MAuthentication authentication, Callback callback) {
@@ -23,14 +26,19 @@ public class SignUpUseCase implements ISignUpUseCase {
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        MAuthentication mAuthentication = new MAuthentication(authResult.getUser().getUid(), "", authResult.getUser().getEmail());
+                        MAuthentication mAuthentication = new MAuthentication(authResult.getUser().getUid(), authResult.getUser().getEmail(), "");
                         FirebaseUser currentUser = auth.getCurrentUser();
                         if(currentUser != null)
                         {
-                            currentUser.sendEmailVerification();
+                            currentUser.sendEmailVerification()
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            auth.signOut();
+                                            callback.onSuccess(mAuthentication);
+                                        }
+                                    });
                         }
-                        callback.onSuccess(mAuthentication);
-                        auth.signOut();
                     }
                 })
 

@@ -73,7 +73,11 @@ public class MUser {
         this.id = id;
     }
 
-
+    @Exclude
+    public LocalDate get_LocalDate_birthday()
+    {
+        return LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd-MMMM-yyyy"));
+    }
 
     @Override
     public String toString() {
