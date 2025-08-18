@@ -2,18 +2,13 @@ package com.example.shoppie.presentation.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 
 import com.example.shoppie.databinding.ActivitySignInBinding;
-import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.viewmodel.SignInViewModel;
 
 public class SignInActivity extends AppCompatActivity  {

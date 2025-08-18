@@ -1,21 +1,27 @@
 package com.example.shoppie.viewmodel;
 
 import android.util.Log;
+import android.util.Patterns;
 
-import androidx.databinding.Bindable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.example.shoppie.BR;
-import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.model.dto.MAuthentication;
+import com.example.shoppie.model.dto.MUser;
+import com.example.shoppie.model.usecase.implementation.CreateUserProfileUseCase;
+import com.example.shoppie.model.usecase.implementation.SignUpUseCase;
+import com.example.shoppie.model.usecase.interfaces.ICreateUserProfile;
+import com.example.shoppie.model.usecase.interfaces.ISignUpUseCase;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.presentation.view.fragment.AuthenticInformationFragment;
 import com.example.shoppie.presentation.view.fragment.PersonalInformationFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import kotlin.jvm.functions.Function1;
 
@@ -30,18 +36,24 @@ public class SignUpViewModel extends ViewModel
     LiveData<String> strPosition;
     ArrayList<Fragment> fragments;
     MutableLiveData<Integer> position;
+    MediatorLiveData<Boolean> isValidFullName;
+    MediatorLiveData<Boolean> isValidPhoneNumber;
+    MediatorLiveData<Boolean> isValidBirthday;
+    MediatorLiveData<Boolean> isValidEmail;
+    MediatorLiveData<Boolean> isValidPassword;
+    ISignUpUseCase signUpUseCase;
+    ICreateUserProfile createUserProfile;
+    MediatorLiveData <String> errorMessage;
 
-    MutableLiveData<Boolean> isValidFullName;
-    MutableLiveData<Boolean> isValidPhoneNumber;
-    MutableLiveData<Boolean> isValidBirthday;
-    MutableLiveData<Boolean> isValidEmail;
-    MutableLiveData<Boolean> isValidPassword;
     // </editor-fold>
 
     // <editor-fold desc="Region: Event Fields">
     MutableLiveData<Boolean> isShowProcessBar;
     MutableLiveData<OnceEvent<Boolean>> asBackSystemEvent;
     MutableLiveData<OnceEvent<Boolean>> changeNextFragmentEvent;
+    MutableLiveData<OnceEvent<Boolean>> showDatePickerDialogEvent;
+    MutableLiveData<OnceEvent<Boolean>> showSignUpSuccessEvent;
+
     // </editor-fold>
 
     // <editor-fold desc="Region: Constructor">
@@ -62,7 +74,7 @@ public class SignUpViewModel extends ViewModel
             }
         });
 
-        isShowProcessBar = new MutableLiveData<>();
+        isShowProcessBar = new MutableLiveData<>(false);
 
         fragments = new ArrayList<>();
         fragments.add(new PersonalInformationFragment());
@@ -70,37 +82,64 @@ public class SignUpViewModel extends ViewModel
         asBackSystemEvent = new MutableLiveData<>();
         changeNextFragmentEvent = new MutableLiveData<>(new OnceEvent<>(true));
 
-        isValidFullName = (MutableLiveData<Boolean>) Transformations.map(fullName, new Function1<String, Boolean>() {
+        isValidFullName = new MediatorLiveData<>(true);
+        isValidFullName.addSource(fullName, new Observer<String>() {
             @Override
-            public Boolean invoke(String s) {
-                return true;
-            }
-        });
-        isValidBirthday = (MutableLiveData<Boolean>) Transformations.map(birthday, new Function1<String, Boolean>() {
-            @Override
-            public Boolean invoke(String s) {
-                return true;
+            public void onChanged(String s) {
+                isValidFullName.setValue(true);
             }
         });
 
-        isValidPhoneNumber = (MutableLiveData<Boolean>) Transformations.map(phoneNumber, new Function1<String, Boolean>() {
+        isValidPassword = new MediatorLiveData<>(true);
+        isValidPassword.addSource(password, new Observer<String>() {
             @Override
-            public Boolean invoke(String s) {
-                return true;
+            public void onChanged(String s) {
+                isValidPassword.setValue(true);
             }
         });
 
-        isValidEmail = (MutableLiveData<Boolean>) Transformations.map(email, new Function1<String, Boolean>() {
+        isValidEmail = new MediatorLiveData<>(true);
+        isValidEmail.addSource(email, new Observer<String>() {
             @Override
-            public Boolean invoke(String s) {
-                return true;
+            public void onChanged(String s) {
+                isValidEmail.setValue(true);
             }
         });
 
-        isValidPassword = (MutableLiveData<Boolean>) Transformations.map(password, new Function1<String, Boolean>() {
+        isValidBirthday = new MediatorLiveData<>(true);
+        isValidBirthday.addSource(birthday, new Observer<String>() {
             @Override
-            public Boolean invoke(String s) {
-                return true;
+            public void onChanged(String s) {
+                isValidBirthday.setValue(true);
+            }
+        });
+
+        isValidPhoneNumber = new MediatorLiveData<>(true);
+        isValidPhoneNumber.addSource(phoneNumber, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                isValidPhoneNumber.setValue(true);
+            }
+        });
+
+        showDatePickerDialogEvent = new MutableLiveData<>();
+        signUpUseCase = new SignUpUseCase();
+        createUserProfile = new CreateUserProfileUseCase();
+        showSignUpSuccessEvent = new MutableLiveData<>();
+
+        errorMessage = new MediatorLiveData<>();
+        errorMessage.addSource(email, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                errorMessage.setValue("");
+                isValidEmail.setValue(true);
+            }
+        });
+        errorMessage.addSource(password, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                errorMessage.setValue("");
+                isValidEmail.setValue(true);
             }
         });
     }
@@ -174,6 +213,18 @@ public class SignUpViewModel extends ViewModel
     public LiveData<Boolean> getIsValidPassword() {
         return isValidPassword;
     }
+
+    public LiveData<OnceEvent<Boolean>> getShowDatePickerDialogEvent() {
+        return showDatePickerDialogEvent;
+    }
+
+    public LiveData<OnceEvent<Boolean>> getShowSignUpSuccessEvent() {
+        return showSignUpSuccessEvent;
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
     // </editor-fold>
 
     // <editor-fold desc="Region: Methods">
@@ -212,7 +263,56 @@ public class SignUpViewModel extends ViewModel
 
     public void onClick_btnSignUp()
     {
-        Log.d("THUAN", "Sign Up button has been pressed");
+        boolean isValid = true;
+        if(email.getValue() == null || email.getValue().isEmpty())
+        {
+            isValidEmail.setValue(false);
+            isValid = false;
+        }
+        if(password.getValue() == null || password.getValue().isEmpty())
+        {
+            isValidPassword.setValue(false);
+            isValid = false;
+        }
+
+        if(!isValid)
+        {
+            return;
+        }
+
+        MAuthentication mAuthentication = new MAuthentication(email.getValue(), password.getValue());
+        MUser mUser = new MUser(fullName.getValue(), phoneNumber.getValue(), birthday.getValue());
+        isShowProcessBar.setValue(true);
+        signUpUseCase.execute(mAuthentication, new ISignUpUseCase.Callback() {
+            @Override
+            public void onSuccess(MAuthentication mAuthentication) {
+                mUser.setId(mAuthentication.getId());
+                createUserProfile.execute(mUser, new ICreateUserProfile.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        showSignUpSuccessEvent.setValue(new OnceEvent<>(true));
+                        isShowProcessBar.setValue(false);
+                        showSignUpSuccessEvent.setValue(new OnceEvent<>(true));
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        errorMessage.setValue(message);
+                        isValidEmail.setValue(false);
+                        isValidPassword.setValue(false);
+                        isShowProcessBar.setValue(false);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String message) {
+                errorMessage.setValue(message);
+                isValidEmail.setValue(false);
+                isValidPassword.setValue(false);
+                isShowProcessBar.setValue(false);
+            }
+        });
     }
 
     public void moveToNextPosition()
@@ -235,4 +335,9 @@ public class SignUpViewModel extends ViewModel
         }
     }
     // </editor-fold>
+
+    public void onClick_txVwBirthday_FPersonalInfo()
+    {
+        showDatePickerDialogEvent.setValue(new OnceEvent<>(true));
+    }
 }

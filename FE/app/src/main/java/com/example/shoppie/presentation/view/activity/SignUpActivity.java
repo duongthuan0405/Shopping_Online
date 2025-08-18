@@ -1,13 +1,13 @@
 package com.example.shoppie.presentation.view.activity;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,11 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.ActivitySignUpBinding;
-import com.example.shoppie.once_event.OnceEvent;
-import com.example.shoppie.presentation.view.fragment.AuthenticInformationFragment;
+import com.example.shoppie.databinding.AlertDialogSignupSuccessBinding;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.viewmodel.SignUpViewModel;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity{
 
@@ -63,6 +63,31 @@ public class SignUpActivity extends AppCompatActivity{
                 getOnBackPressedDispatcher().onBackPressed();
             }
         });
+
+        signUpViewModel.getShowSignUpSuccessEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                showAlertDialogForSuccess();
+            }
+        });
+
+    }
+
+    private void showAlertDialogForSuccess() {
+        AlertDialogSignupSuccessBinding alertDialogBinding = AlertDialogSignupSuccessBinding.inflate(getLayoutInflater());
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setView(alertDialogBinding.getRoot()).create();
+
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialog.show();
+
+        alertDialogBinding.btnOK.setOnClickListener(v -> onClick_btnOk(v));
+    }
+
+    private void onClick_btnOk(View v) {
+        Intent i = new Intent(this, SignInActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
     private void re_HandleBackPress() {

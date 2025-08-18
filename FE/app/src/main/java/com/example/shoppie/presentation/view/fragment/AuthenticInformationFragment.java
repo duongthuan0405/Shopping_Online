@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -67,34 +68,36 @@ public class AuthenticInformationFragment extends Fragment {
         binding.setSignUpVM(signUpViewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
+        signUpViewModel.getIsValidEmail().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                setBackgroundInputBox(binding.edTxYourEmail, aBoolean);
+            }
+        });
+
+        signUpViewModel.getIsValidPassword().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                setBackgroundInputBox(binding.edTxYourPassword, aBoolean);
+            }
+        });
+
         return binding.getRoot();
     }
 
-    private void showAlertDialogForSuccess() {
-        AlertDialogSignupSuccessBinding alertDialogBinding = AlertDialogSignupSuccessBinding.inflate(getLayoutInflater());
-        AlertDialog alertDialog = new AlertDialog.Builder(requireActivity())
-                .setView(alertDialogBinding.getRoot()).create();
 
-        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-        alertDialog.show();
 
-        alertDialogBinding.btnOK.setOnClickListener(v -> onClick_btnOk(v));
-    }
+    private void setBackgroundInputBox(View view, Boolean aBoolean) {
+        Drawable background;
+        if(aBoolean)
+        {
+            background = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
+        }
+        else
+        {
+            background = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
+        }
 
-    private void onClick_btnOk(View v) {
-        Intent i = new Intent(requireActivity(), SignInActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
-    }
-
-    private void changeErrorBackground(View view)
-    {
-        Drawable errorBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
-        view.setBackground(errorBackground);
-    }
-
-    private void setNormalBackground(View view) {
-        Drawable normalBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
-        view.setBackground(normalBackground);
+        view.setBackground(background);
     }
 }

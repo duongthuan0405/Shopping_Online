@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.shoppie.model.usecase.interfaces.ISignUpUseCase;
-import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 
 public class SignInViewModel extends ViewModel {
     // <editor-fold desc="Region: Fields">
     private MutableLiveData<String> email;
     private MutableLiveData<String> password;
+    private MutableLiveData<Boolean> isValidEmail;
+    private MutableLiveData<Boolean> getIsValidPassword;
     // </editor-fold>
 
     // <editor-fold desc="Region: Event Fields">
@@ -48,7 +49,7 @@ public class SignInViewModel extends ViewModel {
 
     public void onClick_btnSignIn()
     {
-
+        if
     }
     // </editor-fold>
 

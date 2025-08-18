@@ -1,4 +1,4 @@
-package com.example.shoppie.once_event;
+package com.example.shoppie.presentation.once_event;
 
 public class OnceEvent<T> {
     // <editor-fold desc="Region:Fields">

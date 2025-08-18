@@ -14,10 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.staticclass.StaticClass;
 import com.example.shoppie.viewmodel.SignUpViewModel;
 
@@ -94,6 +94,17 @@ public class PersonalInformationFragment extends Fragment
             }
         });
 
+        signUpVM.getShowDatePickerDialogEvent().observe(getViewLifecycleOwner(), new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                if(booleanOnceEvent.getContentIfNotHandle() == null)
+                {
+                    return;
+                }
+                showDatePickerDialog();
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -111,12 +122,7 @@ public class PersonalInformationFragment extends Fragment
         view.setBackground(background);
     }
 
-    private void setNormalBackground(View view) {
-        Drawable normalBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
-        view.setBackground(normalBackground);
-    }
-
-    private void onClick_txVwYourBirthday(View v) {
+    private void showDatePickerDialog() {
         DatePickerDialog dialog = new DatePickerDialog(
                 this.requireActivity(),
                 R.style.my_date_picker_dialog,
@@ -130,12 +136,6 @@ public class PersonalInformationFragment extends Fragment
                 selectedDate.getYear(), selectedDate.getMonthValue() - 1, selectedDate.getDayOfMonth()
         );
         dialog.show();
-    }
-
-    private void setErrorBackground(View view)
-    {
-        Drawable errorBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
-        view.setBackground(errorBackground);
     }
 
 }

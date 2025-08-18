@@ -186,7 +186,7 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"
-                    />
+                    android:onClick="@{() -> signUpVM.onClick_txVwBirthday_FPersonalInfo()}"/>
 
             </LinearLayout>
 

@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppie.databinding.ActivityStartingBinding;
-import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.viewmodel.StartingViewModel;
 
 public class StartingActivity extends AppCompatActivity{
