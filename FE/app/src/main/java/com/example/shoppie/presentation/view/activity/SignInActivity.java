@@ -2,19 +2,24 @@ package com.example.shoppie.presentation.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Observer;
 
 import com.example.shoppie.databinding.ActivitySignInBinding;
-import com.example.shoppie.presentation.contract_vp.SignIn_A_Contract;
-import com.example.shoppie.presentation.presenter.SignIn_A_Presenter;
+import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.viewmodel.SignInViewModel;
 
-public class SignInActivity extends AppCompatActivity implements SignIn_A_Contract.IView {
+public class SignInActivity extends AppCompatActivity  {
 
     ActivitySignInBinding binding;
-    SignIn_A_Contract.IPresenter presenter = new SignIn_A_Presenter(this);
+    SignInViewModel signInVM;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,16 +27,26 @@ public class SignInActivity extends AppCompatActivity implements SignIn_A_Contra
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.txVwSignUp.setOnClickListener(v -> onClick_txVwSignUp(v));
+        signInVM = new SignInViewModel();
+        binding.setSignInVM(signInVM);
+        binding.setLifecycleOwner(this);
+
+        signInVM.getNavigateToSignUpActEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                Boolean content = booleanOnceEvent.getContentIfNotHandle();
+                if (content == null || !content) {
+                    return;
+                }
+
+                navigateToSignUpActivity();
+            }
+        });
     }
 
-    private void onClick_txVwSignUp(View v) {
-        presenter.onClick_txVwSignUp();
-    }
-
-    @Override
-    public void navigateToSignUpActivity() {
+    private void navigateToSignUpActivity() {
         Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
     }
+
 }

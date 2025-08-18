@@ -6,11 +6,10 @@
 
     <data>
         <variable
-            name="vm"
-            type="com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel" />
+            name="signUpVM"
+            type="com.example.shoppie.viewmodel.SignUpViewModel" />
 
-        <variable
-            name="view"
+        <import
             type="android.view.View" />
     </data>
 
@@ -87,7 +86,7 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"
-                    android:text="@={vm.email}"/>
+                    android:text="@={signUpVM.email}"/>
 
                 <TextView
                     android:id="@+id/textView11"
@@ -116,7 +115,7 @@
                         android:padding="10dp"
                         android:textColor="@color/black"
                         android:textSize="25sp"
-                        android:text="@={vm.password}"/>
+                        android:text="@={signUpVM.password}"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,7 +167,8 @@
                         android:fontFamily="@font/league_spartan_medium"
                         android:text="@string/back"
                         android:textColor="@color/red"
-                        android:textSize="25sp" />
+                        android:textSize="25sp"
+                        android:onClick="@{() -> signUpVM.onClick_BackFragment()}"/>
 
                 </LinearLayout>
 
@@ -183,7 +183,8 @@
                     android:paddingVertical="10dp"
                     android:text="@string/sign_up"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:onClick="@{() -> signUpVM.onClick_btnSignUp()}"/>
             </LinearLayout>
 
 
@@ -197,7 +198,7 @@
             android:background="@color/unclear"
             android:indeterminate="true"
             android:indeterminateTint="@color/light_blue"
-            android:visibility="@{vm.isShowProcessBar ? view.VISIBLE : view.GONE}"/>
+            android:visibility="@{signUpVM.isShowProcessBar ? View.VISIBLE : View.GONE}"/>
     </FrameLayout>
 
 </layout>

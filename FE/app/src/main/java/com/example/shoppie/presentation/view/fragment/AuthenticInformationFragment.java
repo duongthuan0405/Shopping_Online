@@ -1,9 +1,6 @@
 package com.example.shoppie.presentation.view.fragment;
 
-import static android.view.View.GONE;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,7 +10,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,25 +17,18 @@ import android.view.ViewGroup;
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.AlertDialogSignupSuccessBinding;
 import com.example.shoppie.databinding.FragmentAuthenticInformationBinding;
-import com.example.shoppie.presentation.contract_vp.AuthenticInformation_F_Contract;
-import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
-import com.example.shoppie.presentation.dto.User;
-import com.example.shoppie.presentation.presenter.AuthenticInformation_F_Presenter;
 import com.example.shoppie.presentation.view.activity.SignInActivity;
-import com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel;
+import com.example.shoppie.viewmodel.SignUpViewModel;
 
 import java.util.Objects;
 
-public class AuthenticInformationFragment extends Fragment implements AuthenticInformation_F_Contract.IView{
+public class AuthenticInformationFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
-
-    private AuthenticInformation_F_Contract.IPresenter presenter;
     private FragmentAuthenticInformationBinding binding;
-    private SignUp_A_Contract.IView parentActivity;
     SignUpViewModel signUpViewModel;
 
     public AuthenticInformationFragment() {
@@ -63,8 +52,7 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        presenter = new AuthenticInformation_F_Presenter(this);
-        parentActivity = (SignUp_A_Contract.IView) requireActivity();
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,75 +63,11 @@ public class AuthenticInformationFragment extends Fragment implements AuthenticI
         //return inflater.inflate(R.layout.fragment_authentic_information, container, false);
         binding = FragmentAuthenticInformationBinding.inflate(inflater, container, false);
 
-        initViewModel();
-        binding.txVwBack.setOnClickListener(v -> onClick_txVwBack());
-        binding.btnSignUp.setOnClickListener(v -> onClick_btnSignUp(v));
-        binding.edTxYourPassword.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
-
-        binding.edTxYourEmail.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
-
-        return binding.getRoot();
-    }
-
-    private void initViewModel() {
         signUpViewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
-        binding.setVm(signUpViewModel);
+        binding.setSignUpVM(signUpViewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-    }
-
-    private void onClick_btnSignUp(View v) {
-        String email = binding.edTxYourEmail.getText().toString();
-        String password = binding.edTxYourPassword.getText().toString();
-        presenter.onClick_btnSignUp(email, password);
-    }
-
-    private void onClick_txVwBack() {
-        presenter.onClick_txVwBack();
-    }
-
-    @Override
-    public void handleAsSystemBackPress() {
-        parentActivity.handleAsBackPressSystem();
-    }
-
-    @Override
-    public void showError_Email() {
-        changeErrorBackground(binding.edTxYourEmail);
-    }
-
-    @Override
-    public void showError_Password() {
-        changeErrorBackground(binding.edTxYourPassword);
-    }
-
-    @Override
-    public User getUser() {
-        String fullName = signUpViewModel.getFullName().getValue();
-        String phoneNumber = signUpViewModel.getPhoneNumber().getValue();
-        String birthday = signUpViewModel.getBirthday().getValue();
-        User user = new User(fullName, phoneNumber, birthday);
-        return user;
-    }
-
-    @Override
-    public void showError(String message) {
-        binding.txVwError.setText(message);
-        changeErrorBackground(binding.edTxYourPassword);
-        changeErrorBackground(binding.edTxYourEmail);
-    }
-
-    @Override
-    public void onSuccess() {
-        setNormalBackground(binding.edTxYourEmail);
-        setNormalBackground(binding.edTxYourPassword);
-        binding.txVwError.setText("");
-        showAlertDialogForSuccess();
-    }
-
-    @Override
-    public void setVisibilityOfProcessBar(boolean b) {
-        signUpViewModel.setShowProcessBar(b);
+        return binding.getRoot();
     }
 
     private void showAlertDialogForSuccess() {

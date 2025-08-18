@@ -2,19 +2,20 @@ package com.example.shoppie.presentation.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppie.databinding.ActivityStartingBinding;
-import com.example.shoppie.presentation.contract_vp.Starting_A_Contract;
-import com.example.shoppie.presentation.presenter.Starting_A_Presenter;
+import com.example.shoppie.once_event.OnceEvent;
+import com.example.shoppie.viewmodel.StartingViewModel;
 
-public class StartingActivity extends AppCompatActivity implements Starting_A_Contract.IView {
+public class StartingActivity extends AppCompatActivity{
 
     ActivityStartingBinding binding;
-    Starting_A_Contract.IPresenter presenter = new Starting_A_Presenter(this);
+    StartingViewModel startingViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,14 +23,28 @@ public class StartingActivity extends AppCompatActivity implements Starting_A_Co
         binding = ActivityStartingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnGetStart.setOnClickListener(v -> onClick_btnGetStart(v));
+        startingViewModel = new ViewModelProvider(this).get(StartingViewModel.class);
+        binding.setStartingVM(startingViewModel);
+        binding.setLifecycleOwner(this);
+
+        startingViewModel.getNavigateToSignInActivityEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                if(booleanOnceEvent == null)
+                {
+                    return;
+                }
+                Boolean content = booleanOnceEvent.getContentIfNotHandle();
+                if(content == null || !content)
+                {
+                    return;
+                }
+
+                navigateToLoginActivity();
+            }
+        });
     }
 
-    private void onClick_btnGetStart(View v) {
-        presenter.onCick_btnGetStart();
-    }
-
-    @Override
     public void navigateToLoginActivity() {
         Intent i = new Intent(StartingActivity.this, SignInActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

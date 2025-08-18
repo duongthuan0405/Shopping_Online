@@ -7,25 +7,24 @@ import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.FragmentPersonalInformationBinding;
 import com.example.shoppie.staticclass.StaticClass;
-import com.example.shoppie.presentation.contract_vp.PersonalInformation_F_Contract;
-import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
-import com.example.shoppie.presentation.presenter.PersonalInformation_F_Presenter;
-import com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel;
+import com.example.shoppie.viewmodel.SignUpViewModel;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class PersonalInformationFragment extends Fragment implements PersonalInformation_F_Contract.IView
+public class PersonalInformationFragment extends Fragment
 {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -37,9 +36,8 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
     private String mParam1;
     private String mParam2;
 
-    PersonalInformation_F_Contract.IPresenter presenter = new PersonalInformation_F_Presenter(this);
     FragmentPersonalInformationBinding binding;
-    SignUpViewModel signUpViewModel;
+    SignUpViewModel signUpVM;
     private LocalDate selectedDate = LocalDate.now();
 
     public PersonalInformationFragment() {
@@ -71,16 +69,46 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         //return inflater.inflate(R.layout.fragment_personal_information, container, false);
         binding = FragmentPersonalInformationBinding.inflate(inflater, container, false);
 
-        initViewModel();
+        signUpVM = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
+        binding.setSignUpVM(signUpVM);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        binding.btnNext.setOnClickListener(v -> onClick_btnNext(v));
-        binding.txVwBack.setOnClickListener(v -> onClick_btnBack(v));
-        binding.txVwYourBirthday.setOnClickListener(v -> onClick_txVwYourBirthday(v));
-        binding.edTxYourFullName.setOnTouchListener((v, event) -> { setNormalBackground(v); return false;});
-        binding.edTxYourPhoneNumber.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
-        binding.txVwYourBirthday.setOnTouchListener((v, event) -> {setNormalBackground(v); return false;});
+        signUpVM.getIsValidFullName().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                setBackgroundInputBox(binding.edTxYourFullName, aBoolean);
+            }
+        });
+
+        signUpVM.getIsValidPhoneNumber().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                setBackgroundInputBox(binding.edTxYourPhoneNumber, aBoolean);
+            }
+        });
+
+        signUpVM.getIsValidBirthday().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                setBackgroundInputBox(binding.txVwYourBirthday, aBoolean);
+            }
+        });
 
         return binding.getRoot();
+    }
+
+    private void setBackgroundInputBox(View view, Boolean aBoolean) {
+        Drawable background;
+        if(aBoolean)
+        {
+            background = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box);
+        }
+        else
+        {
+            background = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
+        }
+
+        view.setBackground(background);
     }
 
     private void setNormalBackground(View view) {
@@ -104,50 +132,7 @@ public class PersonalInformationFragment extends Fragment implements PersonalInf
         dialog.show();
     }
 
-    private void initViewModel() {
-        signUpViewModel = new ViewModelProvider(requireActivity()).get(SignUpViewModel.class);
-        binding.setVm(signUpViewModel);
-        binding.setLifecycleOwner(getViewLifecycleOwner());
-
-    }
-
-    private void onClick_btnBack(View v) {
-        presenter.onClick_btnBack();
-    }
-
-    private void onClick_btnNext(View v) {
-        String fullName = binding.edTxYourFullName.getText().toString();
-        String phoneNumber = binding.edTxYourPhoneNumber.getText().toString();
-        String birthday = binding.txVwYourBirthday.getText().toString();
-        presenter.onClick_btnNext(fullName, phoneNumber, birthday);
-    }
-
-    @Override
-    public void changeNextFragment() {
-        ((SignUp_A_Contract.IView)requireActivity()).changeNextFragment();
-    }
-
-    @Override
-    public void handleAsSystemBackPress() {
-        ((SignUp_A_Contract.IView)requireActivity()).handleAsBackPressSystem();
-    }
-
-    @Override
-    public void showError_FullnName() {
-        changeErrorBackground(binding.edTxYourFullName);
-    }
-
-    @Override
-    public void showError_PhoneNumber() {
-        changeErrorBackground(binding.edTxYourPhoneNumber);
-    }
-
-    @Override
-    public void showError_Birthday() {
-        changeErrorBackground(binding.txVwYourBirthday);
-    }
-
-    private void changeErrorBackground(View view)
+    private void setErrorBackground(View view)
     {
         Drawable errorBackground = ContextCompat.getDrawable(requireActivity(), R.drawable.input_box_error);
         view.setBackground(errorBackground);

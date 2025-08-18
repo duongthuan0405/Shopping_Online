@@ -7,7 +7,7 @@
     <data>
         <variable
             name="vm"
-            type="com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel" />
+            type="com.example.shoppie.viewmodel.SignUpViewModel" />
     </data>
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@{vm.strPos}"
+            android:text="@{vm.strPosition}"
             android:textColor="@color/white"
             android:fontFamily="@font/league_spartan_bold"
             android:textSize="30sp"

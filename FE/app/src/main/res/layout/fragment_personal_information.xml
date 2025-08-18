@@ -6,12 +6,12 @@
 
     <data>
         <variable
-            name="vm"
-            type="com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel" />
+            name="signUpVM"
+            type="com.example.shoppie.viewmodel.SignUpViewModel" />
 
-        <variable
-            name="staticClass"
+        <import
             type="com.example.shoppie.staticclass.StaticClass" />
+
     </data>
 
     <FrameLayout
@@ -80,7 +80,8 @@
                         android:fontFamily="@font/league_spartan_medium"
                         android:text="@string/back"
                         android:textColor="@color/red"
-                        android:textSize="25sp"/>
+                        android:textSize="25sp"
+                        android:onClick="@{() -> signUpVM.onClick_BackFragment()}"/>
 
                 </LinearLayout>
 
@@ -95,7 +96,8 @@
                     android:paddingVertical="10dp"
                     android:text="@string/next"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:onClick="@{() -> signUpVM.onClick_Next_FPersonalInfo()}"/>
             </LinearLayout>
 
             <LinearLayout
@@ -133,7 +135,7 @@
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:hint="@string/input_your_name"
-                    android:text="@={vm.fullName}"/>
+                    android:text="@={signUpVM.fullName}"/>
 
 
                 <TextView
@@ -158,7 +160,7 @@
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"
-                    android:text="@={vm.phoneNumber}"
+                    android:text="@={signUpVM.phoneNumber}"
                     android:hint="@string/example_number_phone"/>
 
                 <TextView
@@ -179,8 +181,8 @@
                     android:background="@drawable/input_box"
                     android:ems="10"
                     android:fontFamily="@font/league_spartan_medium"
-                    android:hint="@{staticClass.today}"
-                    android:text="@={vm.birthday}"
+                    android:hint="@{StaticClass.today}"
+                    android:text="@={signUpVM.birthday}"
                     android:padding="10dp"
                     android:textColor="@color/black"
                     android:textSize="25sp"

@@ -1,35 +1,31 @@
 package com.example.shoppie.presentation.view.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppie.R;
 import com.example.shoppie.databinding.ActivitySignUpBinding;
-import com.example.shoppie.presentation.contract_vp.SignUp_A_Contract;
-import com.example.shoppie.presentation.presenter.SignUp_A_Presenter;
+import com.example.shoppie.once_event.OnceEvent;
 import com.example.shoppie.presentation.view.fragment.AuthenticInformationFragment;
-import com.example.shoppie.presentation.view.fragment.PersonalInformationFragment;
-import com.example.shoppie.presentation.view.viewmodel_data.SignUpViewModel;
+import com.example.shoppie.viewmodel.SignUpViewModel;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
-public class SignUpActivity extends AppCompatActivity implements SignUp_A_Contract.IView{
+public class SignUpActivity extends AppCompatActivity{
 
     ActivitySignUpBinding binding;
-    SignUp_A_Contract.IPresenter presenter = new SignUp_A_Presenter(this);
     SignUpViewModel signUpViewModel;
-    ArrayList<Fragment> fragments = new ArrayList<>();
-    int currentPositionFragment = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,22 +33,43 @@ public class SignUpActivity extends AppCompatActivity implements SignUp_A_Contra
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initViewModel();
-        initFragments();
-        attachFirstFragment(savedInstanceState);
+
+
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
+        binding.setVm(signUpViewModel);
+        binding.setLifecycleOwner(this);
         re_HandleBackPress();
 
+        signUpViewModel.getChangeNextFragmentEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                Boolean i = booleanOnceEvent.getContentIfNotHandle();
+                if(i == null || !i)
+                {
+                    return;
+                }
+                Fragment currentFrag = signUpViewModel.getCurrentFragment();
+                setFragment(currentFrag, signUpViewModel.getPosition());
+            }
+        });
+
+        signUpViewModel.getAsBackSystemEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                if(booleanOnceEvent.getContentIfNotHandle() == null)
+                {
+                    return;
+                }
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 
     private void re_HandleBackPress() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                decreaseCurrentFragmentPosition();
-                signUpViewModel.setPosition(currentPositionFragment + 1);
-                signUpViewModel.setShowProcessBar(false);
-
-                // Default back action
+                signUpViewModel.backToPreviousPosition();
                 setEnabled(false);
                 getOnBackPressedDispatcher().onBackPressed();
                 setEnabled(true);
@@ -61,67 +78,22 @@ public class SignUpActivity extends AppCompatActivity implements SignUp_A_Contra
 
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
+    private void setFragment(Fragment f, int currentPositionFragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction = transaction.setCustomAnimations(
+                        R.anim.slide_in_from_right,  // enter
+                        R.anim.slide_out_to_left,  // exit
+                        R.anim.slide_in_from_left,   // popEnter
+                        R.anim.slide_out_to_right  // popExit
+                );
 
-    private void attachFirstFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            Fragment firstFragment = fragments.get(currentPositionFragment);
-            setFragment(firstFragment, currentPositionFragment);
-        }
+        transaction = transaction.replace(binding.mainFrame.getId(), f);
 
-    }
-
-    private void initViewModel() {
-        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-        binding.setVm(signUpViewModel);
-        binding.setLifecycleOwner(this);
-    }
-
-    private void initFragments() {
-        fragments.add(new PersonalInformationFragment());
-        fragments.add(new AuthenticInformationFragment());
-    }
-
-    @Override
-    public void changeNextFragment() {
-        increaseCurrentFragmentPosition();
-        setFragment(fragments.get(currentPositionFragment), currentPositionFragment);
-        signUpViewModel.setPosition(currentPositionFragment + 1);
-    }
-
-    private void increaseCurrentFragmentPosition() {
-        if(currentPositionFragment == fragments.size() - 1)
-            return;
-        currentPositionFragment++;
-    }
-
-    @Override
-    public void handleAsBackPressSystem() {
-        getOnBackPressedDispatcher().onBackPressed();
-    }
-
-
-    private void decreaseCurrentFragmentPosition() {
-        if(currentPositionFragment == 0)
-            return;
-        currentPositionFragment--;
-    }
-
-    private void setFragment(Fragment f, int currentPositionFragment)
-    {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                                            .beginTransaction()
-                                            .setCustomAnimations(
-                                                    R.anim.slide_in_from_right,  // enter
-                                                    R.anim.slide_out_to_left,  // exit
-                                                    R.anim.slide_in_from_left,   // popEnter
-                                                    R.anim.slide_out_to_right  // popExit
-                                            )
-                                            .replace(binding.mainFrame.getId(), f);
-
-        if(currentPositionFragment != 0)
-        {
+        if(currentPositionFragment != 0) {
             transaction.addToBackStack(null);
         }
+
         transaction.commit();
     }
 
