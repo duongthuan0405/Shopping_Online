@@ -1,10 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".presentation.view.activity.MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bubbles3"
+            android:scaleType="fitXY"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_blue"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.05">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@drawable/round"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imVw_Avatar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            app:shapeAppearanceOverlay="@style/avatar"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/league_spartan_medium"
+                            android:text="@string/welcome_back"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txVw_Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/league_spartan_bold"
+                            android:text="@string/duong_thuan"
+                            android:textColor="@color/blue"
+                            android:textSize="30sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <EditText
+                android:id="@+id/edTx_Search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintVertical_bias="0.04"
+                android:background="@drawable/search"
+                android:fontFamily="@font/league_spartan"
+                android:textSize="25sp"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="10dp"
+                android:drawableLeft="@drawable/lookup"
+                android:drawablePadding="10dp"
+                android:hint="@string/search_here"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edTx_Search"
+                app:layout_constraintVertical_bias="0.05">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/league_spartan_bold"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:text="@string/categories"/>
+                
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcVw_ListCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/search"
+                    tools:listitem="@layout/category_item"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</layout>

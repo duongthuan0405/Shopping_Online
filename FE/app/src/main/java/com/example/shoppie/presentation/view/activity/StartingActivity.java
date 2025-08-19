@@ -43,6 +43,25 @@ public class StartingActivity extends AppCompatActivity{
                 navigateToLoginActivity();
             }
         });
+
+        startingViewModel.getNavigateToMainActivityEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                Boolean content = booleanOnceEvent.getContentIfNotHandle();
+                if(content == null || !content)
+                {
+                    return;
+                }
+
+                navigateToMainActivity();
+            }
+        });
+    }
+
+    private void navigateToMainActivity() {
+        Intent i = new Intent(StartingActivity.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
     public void navigateToLoginActivity() {

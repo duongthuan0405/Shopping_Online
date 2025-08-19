@@ -32,6 +32,7 @@ public class SignInViewModel extends ViewModel {
     private MutableLiveData<OnceEvent<Boolean>> onClickCancelAlertDialogAskVerifyEvent;
     private MutableLiveData<OnceEvent<Boolean>> onDismissDialog;
     private MutableLiveData<OnceEvent<String>> showToastEvent;
+    private MutableLiveData<OnceEvent<Boolean>> navigateToMainActivityEvent;
     // </editor-fold>
 
     // <editor-fold desc="Region: Event Fields">
@@ -84,6 +85,7 @@ public class SignInViewModel extends ViewModel {
         resendVerifyEmail = new ResendVerifyEmail();
         showToastEvent = new MutableLiveData<>();
         signOutUseCase = new SignOutUseCase();
+        navigateToMainActivityEvent = new MutableLiveData<>();
 
     }
     // </editor-fold>
@@ -131,6 +133,10 @@ public class SignInViewModel extends ViewModel {
 
     public LiveData<OnceEvent<String>> getShowToastEvent() {
         return showToastEvent;
+    }
+
+    public LiveData<OnceEvent<Boolean>> getNavigateToMainActivityEvent() {
+        return navigateToMainActivityEvent;
     }
     // </editor-fold>
 
@@ -180,7 +186,7 @@ public class SignInViewModel extends ViewModel {
 
             @Override
             public void onSuccess(MAuthentication mAuthentication) {
-                Log.d("THUAN", "Login Sucess");
+                navigateToMainActivityEvent.setValue(new OnceEvent<>(true));
                 isShowProcessBar.setValue(false);
             }
         });

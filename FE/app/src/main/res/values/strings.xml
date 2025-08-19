@@ -36,4 +36,9 @@
     <string name="please_check_your_email_to_verify_or_resend_a_verified_email_if_you_want">Please check your email to verify or resend a verified email if you want</string>
     <string name="cancel">Cancel</string>
     <string name="resend">Resend</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="duong_thuan">Duong Thuan</string>
+    <string name="search_here">Search here</string>
+    <string name="categories">Categories</string>
+    <string name="category1">Category1</string>
 </resources>
