@@ -32,4 +32,8 @@
     <string name="sign_up_successfully">Sign up successfully</string>
     <string name="ok">OK</string>
     <string name="please_check_your_email_to_verify">Please check your email to verify</string>
+    <string name="your_email_has_never_been_verified">Your email has never been verified!</string>
+    <string name="please_check_your_email_to_verify_or_resend_a_verified_email_if_you_want">Please check your email to verify or resend a verified email if you want</string>
+    <string name="cancel">Cancel</string>
+    <string name="resend">Resend</string>
 </resources>

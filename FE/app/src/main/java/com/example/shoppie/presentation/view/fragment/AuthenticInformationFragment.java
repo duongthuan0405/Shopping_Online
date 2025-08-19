@@ -85,8 +85,6 @@ public class AuthenticInformationFragment extends Fragment {
         return binding.getRoot();
     }
 
-
-
     private void setBackgroundInputBox(View view, Boolean aBoolean) {
         Drawable background;
         if(aBoolean)

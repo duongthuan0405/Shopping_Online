@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="signInVM"
+            type="com.example.shoppie.viewmodel.SignInViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:backgroundTint="@android:color/white"
+        android:id="@+id/main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_email_has_never_been_verified"
+                    android:fontFamily="@font/league_spartan_bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/red"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/please_check_your_email_to_verify_or_resend_a_verified_email_if_you_want"
+                    android:fontFamily="@font/league_spartan"
+                    android:textSize="20sp"
+                    android:textColor="@color/red"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:background="@color/blue"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_dialog"
+                    android:fontFamily="@font/league_spartan_bold"
+                    android:textColor="@color/red"
+                    android:text="@string/cancel"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="10dp"
+                    android:onClick="@{() -> signInVM.onClick_btnCancel_DialogAskToVerify()}"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_Resend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_dialog"
+                    android:fontFamily="@font/league_spartan_bold"
+                    android:textColor="@color/blue"
+                    android:text="@string/resend"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="10dp"
+                    android:onClick="@{() -> signInVM.onClick_btnResend_DialogAskToVerify()}"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</layout>

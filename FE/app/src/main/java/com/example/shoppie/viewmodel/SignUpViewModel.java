@@ -132,14 +132,12 @@ public class SignUpViewModel extends ViewModel
             @Override
             public void onChanged(String s) {
                 errorMessage.setValue("");
-                isValidEmail.setValue(true);
             }
         });
         errorMessage.addSource(password, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 errorMessage.setValue("");
-                isValidEmail.setValue(true);
             }
         });
     }
@@ -263,6 +261,8 @@ public class SignUpViewModel extends ViewModel
 
     public void onClick_btnSignUp()
     {
+        isValidPassword.setValue(true);
+        isValidEmail.setValue(true);
         boolean isValid = true;
         if(email.getValue() == null || email.getValue().isEmpty())
         {
