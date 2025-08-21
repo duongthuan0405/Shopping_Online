@@ -18,15 +18,16 @@ import com.example.shoppie.R;
 import com.example.shoppie.databinding.ActivitySignInBinding;
 import com.example.shoppie.databinding.AlertDialogAskToVerifyEmailBinding;
 import com.example.shoppie.presentation.once_event.OnceEvent;
+import com.example.shoppie.viewmodel.MainViewModel;
 import com.example.shoppie.viewmodel.SignInViewModel;
 
 import java.util.Objects;
 
 public class SignInActivity extends AppCompatActivity  {
 
-    ActivitySignInBinding binding;
-    SignInViewModel signInVM;
-    Dialog dialogAskToVerify;
+    private ActivitySignInBinding binding;
+    private SignInViewModel signInVM;
+    private Dialog dialogAskToVerify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +132,7 @@ public class SignInActivity extends AppCompatActivity  {
     }
 
     private void navigateToMainActivity() {
-        Intent i = new Intent(this, SignUpActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }

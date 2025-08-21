@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpUseCase implements ISignUpUseCase {
-    FirebaseAuth auth;
-    ICreateUserProfile createUserPersonalInformationUseCse;
+    private FirebaseAuth auth;
+    private ICreateUserProfile createUserPersonalInformationUseCse;
     public SignUpUseCase()
     {
         auth = FirebaseAuth.getInstance();

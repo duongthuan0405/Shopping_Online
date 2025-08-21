@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.shoppie.model.usecase.implementation.GetRealTimeUser;
+import com.example.shoppie.model.dto.MAuthentication;
+import com.example.shoppie.model.usecase.implementation.GetRealTimeCurrenrUser;
 import com.example.shoppie.model.usecase.interfaces.IGetRealTimeUser;
 import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,7 +15,7 @@ public class StartingViewModel extends ViewModel
     // <editor-fold desc="Region:Fields">
     private MutableLiveData<OnceEvent<Boolean>> navigateToSignInActivityEvent;
     private MutableLiveData<OnceEvent<Boolean>> navigateToMainActivityEvent;
-    IGetRealTimeUser getRealTimeUser;
+    private IGetRealTimeUser getRealTimeUser;
     // </editor-fold>
 
     // <editor-fold desc="Region:Constructor">
@@ -22,7 +23,7 @@ public class StartingViewModel extends ViewModel
     {
         this.navigateToSignInActivityEvent = new MutableLiveData<>();
         navigateToMainActivityEvent = new MutableLiveData<>();
-        getRealTimeUser = new GetRealTimeUser();
+        getRealTimeUser = new GetRealTimeCurrenrUser();
     }
     // </editor-fold>
 
@@ -41,7 +42,7 @@ public class StartingViewModel extends ViewModel
     {
         getRealTimeUser.execute(new IGetRealTimeUser.Callback() {
             @Override
-            public void onHaveTokenUser(FirebaseUser currentUserAfterRefresh) {
+            public void onHaveTokenUser(MAuthentication currentUserAfterRefresh) {
                 navigateToMainActivityEvent.setValue(new OnceEvent<>(true));
             }
 

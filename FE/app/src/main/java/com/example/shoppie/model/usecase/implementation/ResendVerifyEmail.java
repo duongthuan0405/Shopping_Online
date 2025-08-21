@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ResendVerifyEmail implements IResendVerifyEmail {
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     public ResendVerifyEmail()
     {
         auth = FirebaseAuth.getInstance();

@@ -30,7 +30,7 @@ public class AuthenticInformationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FragmentAuthenticInformationBinding binding;
-    SignUpViewModel signUpViewModel;
+    private SignUpViewModel signUpViewModel;
 
     public AuthenticInformationFragment() {
         // Required empty public constructor

@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.view.activity.MainActivity">
 
+    <data>
+        <variable
+            name="mainVM"
+            type="com.example.shoppie.viewmodel.MainViewModel" />
+    </data>
+
     <FrameLayout
         android:id="@+id/main"
         android:layout_width="match_parent"

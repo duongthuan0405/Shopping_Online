@@ -28,31 +28,32 @@ import kotlin.jvm.functions.Function1;
 public class SignUpViewModel extends ViewModel
 {
     // <editor-fold desc="Region: Data Fields">
-    MutableLiveData<String> fullName;
-    MutableLiveData<String> phoneNumber;
-    MutableLiveData<String> birthday;
-    MutableLiveData<String> email;
-    MutableLiveData<String> password;
-    LiveData<String> strPosition;
-    ArrayList<Fragment> fragments;
-    MutableLiveData<Integer> position;
-    MediatorLiveData<Boolean> isValidFullName;
-    MediatorLiveData<Boolean> isValidPhoneNumber;
-    MediatorLiveData<Boolean> isValidBirthday;
-    MediatorLiveData<Boolean> isValidEmail;
-    MediatorLiveData<Boolean> isValidPassword;
-    ISignUpUseCase signUpUseCase;
-    ICreateUserProfile createUserProfile;
-    MediatorLiveData <String> errorMessage;
+    private MutableLiveData<String> fullName;
+    private MutableLiveData<String> phoneNumber;
+    private MutableLiveData<String> birthday;
+    private MutableLiveData<String> email;
+    private MutableLiveData<String> password;
+    private LiveData<String> strPosition;
+    private ArrayList<Fragment> fragments;
+    private MutableLiveData<Integer> position;
+    private MediatorLiveData<Boolean> isValidFullName;
+    private MediatorLiveData<Boolean> isValidPhoneNumber;
+    private MediatorLiveData<Boolean> isValidBirthday;
+    private MediatorLiveData<Boolean> isValidEmail;
+    private MediatorLiveData<Boolean> isValidPassword;
+    private ISignUpUseCase signUpUseCase;
+    private ICreateUserProfile createUserProfile;
+    private MediatorLiveData <String> errorMessage;
+    private MutableLiveData<OnceEvent<Boolean>> dismissDialogEvent;
 
     // </editor-fold>
 
     // <editor-fold desc="Region: Event Fields">
-    MutableLiveData<Boolean> isShowProcessBar;
-    MutableLiveData<OnceEvent<Boolean>> asBackSystemEvent;
-    MutableLiveData<OnceEvent<Boolean>> changeNextFragmentEvent;
-    MutableLiveData<OnceEvent<Boolean>> showDatePickerDialogEvent;
-    MutableLiveData<OnceEvent<Boolean>> showSignUpSuccessEvent;
+    private MutableLiveData<Boolean> isShowProcessBar;
+    private MutableLiveData<OnceEvent<Boolean>> asBackSystemEvent;
+    private MutableLiveData<OnceEvent<Boolean>> changeNextFragmentEvent;
+    private MutableLiveData<OnceEvent<Boolean>> showDatePickerDialogEvent;
+    private MutableLiveData<OnceEvent<Boolean>> showSignUpSuccessEvent;
 
     // </editor-fold>
 
@@ -140,6 +141,8 @@ public class SignUpViewModel extends ViewModel
                 errorMessage.setValue("");
             }
         });
+
+        dismissDialogEvent = new MutableLiveData<>();
     }
     // </editor-fold>
 
@@ -222,6 +225,10 @@ public class SignUpViewModel extends ViewModel
 
     public LiveData<String> getErrorMessage() {
         return errorMessage;
+    }
+
+    public LiveData<OnceEvent<Boolean>> getDismissDialogEvent() {
+        return dismissDialogEvent;
     }
     // </editor-fold>
 
@@ -334,10 +341,16 @@ public class SignUpViewModel extends ViewModel
             position.setValue(pos);
         }
     }
-    // </editor-fold>
 
     public void onClick_txVwBirthday_FPersonalInfo()
     {
         showDatePickerDialogEvent.setValue(new OnceEvent<>(true));
     }
+
+    public void onClick_btnOK_alDl()
+    {
+        dismissDialogEvent.setValue(new OnceEvent<>(true));
+    }
+    // </editor-fold>
+
 }

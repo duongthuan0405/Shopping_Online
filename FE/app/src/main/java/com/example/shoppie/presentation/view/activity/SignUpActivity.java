@@ -24,16 +24,15 @@ import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity{
 
-    ActivitySignUpBinding binding;
-    SignUpViewModel signUpViewModel;
+    private ActivitySignUpBinding binding;
+    private SignUpViewModel signUpViewModel;
+    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
 
         signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
         binding.setVm(signUpViewModel);
@@ -71,23 +70,33 @@ public class SignUpActivity extends AppCompatActivity{
             }
         });
 
+        signUpViewModel.getDismissDialogEvent().observe(this, new Observer<OnceEvent<Boolean>>() {
+            @Override
+            public void onChanged(OnceEvent<Boolean> booleanOnceEvent) {
+                Boolean content = booleanOnceEvent.getContentIfNotHandle();
+                if(content == null)
+                {
+                    return;
+                }
+                alertDialog.dismiss();
+
+                Intent i = new Intent(SignUpActivity.this, SignInActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
     }
 
     private void showAlertDialogForSuccess() {
         AlertDialogSignupSuccessBinding alertDialogBinding = AlertDialogSignupSuccessBinding.inflate(getLayoutInflater());
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
+        alertDialogBinding.setSignUpVM(signUpViewModel);
+        alertDialogBinding.setLifecycleOwner(this);
+
+        alertDialog = new AlertDialog.Builder(this)
                 .setView(alertDialogBinding.getRoot()).create();
 
         Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
         alertDialog.show();
-
-        alertDialogBinding.btnOK.setOnClickListener(v -> onClick_btnOk(v));
-    }
-
-    private void onClick_btnOk(View v) {
-        Intent i = new Intent(this, SignInActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
     }
 
     private void re_HandleBackPress() {

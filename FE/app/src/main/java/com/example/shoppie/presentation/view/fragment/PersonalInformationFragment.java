@@ -36,8 +36,8 @@ public class PersonalInformationFragment extends Fragment
     private String mParam1;
     private String mParam2;
 
-    FragmentPersonalInformationBinding binding;
-    SignUpViewModel signUpVM;
+    private FragmentPersonalInformationBinding binding;
+    private SignUpViewModel signUpVM;
     private LocalDate selectedDate = LocalDate.now();
 
     public PersonalInformationFragment() {

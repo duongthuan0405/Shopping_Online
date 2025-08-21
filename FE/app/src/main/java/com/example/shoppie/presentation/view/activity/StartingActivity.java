@@ -9,19 +9,21 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.shoppie.databinding.ActivityStartingBinding;
+import com.example.shoppie.model.usecase.implementation.SignOutUseCase;
 import com.example.shoppie.presentation.once_event.OnceEvent;
 import com.example.shoppie.viewmodel.StartingViewModel;
 
 public class StartingActivity extends AppCompatActivity{
 
-    ActivityStartingBinding binding;
-    StartingViewModel startingViewModel;
+    private ActivityStartingBinding binding;
+    private StartingViewModel startingViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         binding = ActivityStartingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //new SignOutUseCase().execute();
 
         startingViewModel = new ViewModelProvider(this).get(StartingViewModel.class);
         binding.setStartingVM(startingViewModel);

@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shoppie.databinding.CategoryItemBinding;
+
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.CategoryItemViewHolder> {
 
     @NonNull
@@ -16,7 +18,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CategoryItemViewHolder holder, int position) {
-
+        holder.binding.getRoot();
     }
 
     @Override
@@ -25,8 +27,10 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     }
 
     public class CategoryItemViewHolder extends RecyclerView.ViewHolder {
-        public CategoryItemViewHolder(@NonNull View itemView) {
-            super(itemView);
+        CategoryItemBinding binding;
+        public CategoryItemViewHolder(@NonNull CategoryItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

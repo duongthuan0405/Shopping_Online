@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class CreateUserProfileUseCase implements ICreateUserProfile
 {
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
     public CreateUserProfileUseCase()
     {
         db = FirebaseFirestore.getInstance();

@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignInUseCase implements ISignInUseCase
 {
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     public SignInUseCase()
     {
         auth = FirebaseAuth.getInstance();

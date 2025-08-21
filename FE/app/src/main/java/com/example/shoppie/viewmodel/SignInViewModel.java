@@ -36,7 +36,7 @@ public class SignInViewModel extends ViewModel {
     // </editor-fold>
 
     // <editor-fold desc="Region: Event Fields">
-    MutableLiveData<OnceEvent<Boolean>> navigateToSignUpActEvent;
+    private MutableLiveData<OnceEvent<Boolean>> navigateToSignUpActEvent;
     // </editor-fold>
 
 

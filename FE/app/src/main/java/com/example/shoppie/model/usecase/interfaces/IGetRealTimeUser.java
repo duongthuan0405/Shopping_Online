@@ -1,5 +1,6 @@
 package com.example.shoppie.model.usecase.interfaces;
 
+import com.example.shoppie.model.dto.MAuthentication;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface IGetRealTimeUser {
@@ -8,7 +9,7 @@ public interface IGetRealTimeUser {
     interface Callback
     {
 
-        void onHaveTokenUser(FirebaseUser currentUserAfterRefresh);
+        void onHaveTokenUser(MAuthentication currentUserAfterRefresh);
 
         void onNotHaveAnyTokenUser();
     }

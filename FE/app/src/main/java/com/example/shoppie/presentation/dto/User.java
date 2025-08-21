@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class User {
-    String id;
-    String fullName;
-    String phoneNumber;
-    String birthday;
+    private String id;
+    private String fullName;
+    private String phoneNumber;
+    private String birthday;
 
     public User(String fullName, String phoneNumber, String birthday) {
         this.fullName = fullName;
